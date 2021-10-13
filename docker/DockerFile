@@ -1,0 +1,10 @@
+FROM php:7.4-alpine
+FROM composer:2.0 as composer
+RUN docker-php-ext-install pdo_mysql
+
+
+COPY . /
+RUN composer install
+RUN php bin/console d:d:c
+RUN php bin/console d:s:c
+CMD php -S 0.0.0.0:8000 /public/index.php

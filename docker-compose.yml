@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:8.0
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: adr
+  adminer:
+    image: adminer
+    restart: on-failure
+    ports:
+      - '8080:8080'
+  symfony:
+    build:
+      context: .
+      dockerfile: docker/DockerFile
+    image: basic
+    ports:
+      - 8000:8000
