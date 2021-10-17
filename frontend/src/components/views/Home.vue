@@ -1,15 +1,14 @@
 <template>
-  <div class="home">
+  <div class="home child">
     <img alt="Vue logo" src="../../assets/logo.png">
     <div>Welcome {{ user.lastname }} {{ user.firstname }}</div>
-
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 
-import AuthService from "../../service/auth.service";
+import AuthService from "../../service/auth/auth.service";
 
 export default {
   name: 'Home',

@@ -1,16 +1,21 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link>
-    |
-    <router-link to="/about">About</router-link>
-    |
-    <button @click="logout()">Logout</button>
+    <router-link :to="item.path" v-for="(item,index) in menu" :key="index">{{ item.alias }} |</router-link>
+
+    <button class="btn btn-danger" @click="logout()">Logout</button>
   </div>
 </template>
 
 <script>
+import AuthService from "@/service/auth/auth.service";
+
 export default {
   name: "Menu",
+  data: () => {
+    return {
+      menu: []
+    }
+  },
   methods: {
     logout() {
       this.$store.dispatch("auth/logout").then(
@@ -28,12 +33,30 @@ export default {
           }
       );
     },
+    getMenu() {
+      AuthService.getMenu().then(
+          (response) => {
+            this.menu = response.data;
+          },
+          (error) => {
+            this.content =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString();
+          });
+    }
+  },
+  mounted() {
+    this.getMenu();
   }
 }
 </script>
 
 <style scoped>
 #nav {
+  text-align: center;
   padding: 30px;
 }
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import authHeader from "@/service/auth-header";
+import authHeader from "@/service/auth/auth-header";
 
 const API_URL = 'http://localhost:8000/api/';
 
@@ -33,6 +33,10 @@ class AuthService {
 
     getCurrentUser() {
         return axios.get(API_URL + 'current-user', {headers: authHeader()});
+    }
+
+    getMenu() {
+        return axios.get(API_URL + 'menu', {headers: authHeader()});
     }
 
 

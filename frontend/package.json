@@ -9,10 +9,13 @@
   },
   "dependencies": {
     "axios": "^0.23.0",
+    "bootstrap": "4",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.16.1",
     "vue": "^3.0.0",
     "vue-axios": "^3.3.7",
     "vue-router": "^4.0.0-0",
