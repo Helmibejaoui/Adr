@@ -3,6 +3,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -49,12 +51,20 @@ class User implements UserInterface
     private string $lastname;
 
     /**
+     * One Product has Many Features.
+     *
+     * @ORM\OneToMany(targetEntity="Blog", mappedBy="createdBy")
+     */
+    private $blogs;
+
+    /**
      * User constructor.
      * @param $username
      */
     public function __construct($username)
     {
         $this->username = $username;
+        $this->blogs = new ArrayCollection();
     }
 
     /**
@@ -153,6 +163,36 @@ class User implements UserInterface
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Blog[]
+     */
+    public function getBlogs(): Collection
+    {
+        return $this->blogs;
+    }
+
+    public function addBlog(Blog $blog): self
+    {
+        if (!$this->blogs->contains($blog)) {
+            $this->blogs[] = $blog;
+            $blog->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlog(Blog $blog): self
+    {
+        if ($this->blogs->removeElement($blog)) {
+            // set the owning side to null (unless already changed)
+            if ($blog->getCreatedBy() === $this) {
+                $blog->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }

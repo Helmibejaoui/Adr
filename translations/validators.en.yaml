@@ -1,0 +1,3 @@
+blog.title.not_blank: Title must not be empty.
+blog.content.not_blank: Content must not be empty.
+

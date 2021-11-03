@@ -14,6 +14,7 @@ class CurrentUserController
     /**
      * @Route("/api/current-user", name="api_current_user", methods={"GET"})
      * @param Security $security
+     * @param GetService $getService
      * @return JsonResponse
      */
     public function __invoke(Security $security,GetService $getService): JsonResponse
