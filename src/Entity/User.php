@@ -30,7 +30,7 @@ class User implements UserInterface
      * @Assert\NotBlank
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $password;
+    protected ?string $password;
 
     /**
      * @Assert\NotBlank

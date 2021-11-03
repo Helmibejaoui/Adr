@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Blog;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,22 +21,21 @@ class BlogRepository extends ServiceEntityRepository
         parent::__construct($registry, Blog::class);
     }
 
-    // /**
-    //  * @return Blog[] Returns an array of Blog objects
-    //  */
-    /*
-    public function findByExampleField($value)
+
+    public function findByUserConnected($user)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->getEntityManager()
+        ->createQueryBuilder()
+            ->select('b,u')
+            ->from(Blog::class,'b')
+            ->leftJoin('b.createdBy','u')
+            ->andWhere('b.createdBy != :user')
+            ->setParameter('user', $user)
+            ->orderBy('b.createdAt', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Blog

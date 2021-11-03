@@ -31,6 +31,11 @@ class Blog
     private $content;
 
     /**
+     * @ORM\Column(type="datetime",nullable=true)
+     */
+    private $createdAt;
+
+    /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="blogs")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id", onDelete="SET NULL")
      */
@@ -73,6 +78,18 @@ class Blog
     public function setCreatedBy(?User $createdBy): self
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

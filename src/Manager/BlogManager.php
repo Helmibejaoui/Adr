@@ -6,9 +6,9 @@ namespace App\Manager;
 
 use App\Entity\Blog;
 use App\Entity\User;
-use App\Repository\BlogRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ObjectRepository;
 use Symfony\Component\Security\Core\Security;
 
 class BlogManager
@@ -16,6 +16,7 @@ class BlogManager
 
     private EntityManagerInterface $entityManager;
     private Security $security;
+    private ObjectRepository|EntityRepository $repository;
 
     public function __construct(
         EntityManagerInterface $entityManager,
@@ -23,6 +24,12 @@ class BlogManager
     {
         $this->entityManager = $entityManager;
         $this->security = $security;
+        $this->repository = $entityManager->getRepository(Blog::class);
+    }
+
+    public function getData(): array
+    {
+        return $this->repository->findByUserConnected($this->security->getUser());
     }
 
     public function post(Blog $blog): Blog
@@ -32,6 +39,7 @@ class BlogManager
          */
         $user = $this->security->getUser();
         $blog->setCreatedBy($user);
+        $blog->setCreatedAt(new \DateTime());
         $this->entityManager->persist($blog);
         $this->entityManager->flush();
 
